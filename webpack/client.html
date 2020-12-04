@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        // 连接到服务器
+        // WebSocket有两种协议，一种是ws，另一种wss，加密连接
+        const ws = new WebSocket("ws://localhost:8080", "1111");
+        // 这一步连接还没建立，浏览器头参数新增
+        // 扩展协议
+        // Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+        // 发送的秘钥，校验服务器身份
+        // Sec-WebSocket-Key: c3MolK1iTMB7Fk1rXK0pew==
+        // 版本号
+        // Sec-WebSocket-Version: 13
+        // 表示是升级连接
+        // Upgrade: websocket
+        // Connection: Upgrade
+        ws.binaryType = "arraybuffer";
+        console.log(ws.readyState);
+        console.log(ws.url);
+        console.log(ws.bufferedAmount);
+        console.log(ws.binaryType);
+        ws.onopen = () => {
+            console.log("连接已打开");
+            console.log(ws.protocol);
+            ws.send("aa");
+        }
+        ws.onmessage = data => {
+            console.log(data);
+            console.log("接收到数据");
+        }
+        ws.onclose = () => {
+            console.log(ws.binaryType);
+            console.log("连接断开");
+        }
+        ws.onerror = () => {
+            console.log("连接错误");
+        }
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
